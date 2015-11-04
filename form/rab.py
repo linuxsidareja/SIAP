@@ -9,27 +9,18 @@ import wx
 def create(parent):
     return rab(parent)
 
-[wxID_RAB, wxID_RABBELANJA, wxID_RABBIDANG, wxID_RABEDIT, wxID_RABHAPUS, 
- wxID_RABLISTCTRL1, wxID_RABLISTCTRL2, wxID_RABMENU, wxID_RABNOMOR, 
- wxID_RABSTATICTEXT1, wxID_RABSTATICTEXT10, wxID_RABSTATICTEXT11, 
- wxID_RABSTATICTEXT12, wxID_RABSTATICTEXT2, wxID_RABSTATICTEXT3, 
- wxID_RABSTATICTEXT4, wxID_RABSTATICTEXT5, wxID_RABSTATICTEXT6, 
- wxID_RABSTATICTEXT7, wxID_RABSTATICTEXT8, wxID_RABSTATICTEXT9, wxID_RABTAHUN, 
- wxID_RABTAMBAH, wxID_RABTEXTCTRL1, wxID_RABTEXTCTRL2, wxID_RABTEXTCTRL3, 
- wxID_RABTEXTCTRL4, wxID_RABTEXTCTRL5, wxID_RABTEXTCTRL6, wxID_RABTEXTCTRL7, 
- wxID_RABURAIAN, wxID_RABWAKTU, 
-] = [wx.NewId() for _init_ctrls in range(32)]
+[wxID_RAB, wxID_RABAPBDES, wxID_RABBIDANG, wxID_RABEDIT, wxID_RABHAPUS, 
+ wxID_RABHARGA, wxID_RABJUMLAH, wxID_RABKEGIATAN, wxID_RABMENU, wxID_RABNOMOR, 
+ wxID_RABNOMORREK, wxID_RABRAB, wxID_RABSATUAN, wxID_RABSTATICTEXT1, 
+ wxID_RABSTATICTEXT10, wxID_RABSTATICTEXT11, wxID_RABSTATICTEXT12, 
+ wxID_RABSTATICTEXT2, wxID_RABSTATICTEXT3, wxID_RABSTATICTEXT4, 
+ wxID_RABSTATICTEXT5, wxID_RABSTATICTEXT6, wxID_RABSTATICTEXT7, 
+ wxID_RABSTATICTEXT8, wxID_RABSTATICTEXT9, wxID_RABTAHUN, wxID_RABTAMBAH, 
+ wxID_RABURAIAN, wxID_RABURAIANRAB, wxID_RABVOLUME, wxID_RABWAKTU, 
+] = [wx.NewId() for _init_ctrls in range(31)]
 
 class rab(wx.Frame):
-    def _init_coll_belanja_Columns(self, parent):
-        # generated method, don't edit
-
-        parent.InsertColumn(col=0, format=wx.LIST_FORMAT_LEFT, heading=u'Norek',
-              width=-1)
-        parent.InsertColumn(col=1, format=wx.LIST_FORMAT_LEFT,
-              heading=u'Uraian Belanja Pegawai/Barang/Jasa/Modal', width=400)
-
-    def _init_coll_listCtrl1_Columns(self, parent):
+    def _init_coll_apbdes_Columns(self, parent):
         # generated method, don't edit
 
         parent.InsertColumn(col=0, format=wx.LIST_FORMAT_LEFT,
@@ -39,7 +30,7 @@ class rab(wx.Frame):
         parent.InsertColumn(col=2, format=wx.LIST_FORMAT_LEFT,
               heading=u'Kegiatan', width=-1)
 
-    def _init_coll_listCtrl2_Columns(self, parent):
+    def _init_coll_rab_Columns(self, parent):
         # generated method, don't edit
 
         parent.InsertColumn(col=0, format=wx.LIST_FORMAT_LEFT,
@@ -70,15 +61,14 @@ class rab(wx.Frame):
         self.Center(wx.BOTH)
         self.SetBackgroundColour(wx.Colour(192, 192, 192))
 
-        self.listCtrl1 = wx.ListCtrl(id=wxID_RABLISTCTRL1, name='listCtrl1',
-              parent=self, pos=wx.Point(6, 10), size=wx.Size(340, 110),
+        self.apbdes = wx.ListCtrl(id=wxID_RABAPBDES, name=u'apbdes',
+              parent=self, pos=wx.Point(6, 10), size=wx.Size(340, 221),
               style=wx.LC_REPORT)
-        self._init_coll_listCtrl1_Columns(self.listCtrl1)
+        self._init_coll_apbdes_Columns(self.apbdes)
 
-        self.listCtrl2 = wx.ListCtrl(id=wxID_RABLISTCTRL2, name='listCtrl2',
-              parent=self, pos=wx.Point(6, 238), size=wx.Size(826, 202),
-              style=wx.LC_REPORT)
-        self._init_coll_listCtrl2_Columns(self.listCtrl2)
+        self.rab = wx.ListCtrl(id=wxID_RABRAB, name=u'rab', parent=self,
+              pos=wx.Point(6, 238), size=wx.Size(826, 202), style=wx.LC_REPORT)
+        self._init_coll_rab_Columns(self.rab)
 
         self.staticText1 = wx.StaticText(id=wxID_RABSTATICTEXT1,
               label=u'APB Desa Tahun', name='staticText1', parent=self,
@@ -95,6 +85,8 @@ class rab(wx.Frame):
               parent=self, pos=wx.Point(551, 16), size=wx.Size(275, 21),
               style=0, value=u'')
         self.bidang.SetLabel(u'')
+        self.bidang.Bind(wx.EVT_COMBOBOX, self.OnBidangCombobox,
+              id=wxID_RABBIDANG)
 
         self.staticText2 = wx.StaticText(id=wxID_RABSTATICTEXT2,
               label=u'Bidang', name='staticText2', parent=self,
@@ -128,32 +120,31 @@ class rab(wx.Frame):
               label=u'Jumlah', name='staticText8', parent=self,
               pos=wx.Point(527, 187), size=wx.Size(33, 13), style=0)
 
-        self.nomor = wx.TextCtrl(id=wxID_RABNOMOR, name=u'nomor', parent=self,
-              pos=wx.Point(608, 64), size=wx.Size(70, 21), style=0, value=u'')
+        self.nomorrek = wx.TextCtrl(id=wxID_RABNOMORREK, name=u'nomorrek',
+              parent=self, pos=wx.Point(608, 64), size=wx.Size(70, 21), style=0,
+              value=u'')
 
-        self.textCtrl1 = wx.TextCtrl(id=wxID_RABTEXTCTRL1, name='textCtrl1',
+        self.uraianrab = wx.TextCtrl(id=wxID_RABURAIANRAB, name=u'uraianrab',
               parent=self, pos=wx.Point(448, 124), size=wx.Size(384, 35),
               style=wx.TE_MULTILINE, value=u'')
 
-        self.textCtrl2 = wx.TextCtrl(id=wxID_RABTEXTCTRL2, name='textCtrl2',
+        self.volume = wx.TextCtrl(id=wxID_RABVOLUME, name=u'volume',
               parent=self, pos=wx.Point(447, 160), size=wx.Size(70, 21),
               style=0, value=u'')
 
-        self.textCtrl3 = wx.TextCtrl(id=wxID_RABTEXTCTRL3, name='textCtrl3',
+        self.satuan = wx.TextCtrl(id=wxID_RABSATUAN, name=u'satuan',
               parent=self, pos=wx.Point(589, 161), size=wx.Size(70, 21),
               style=0, value=u'')
 
-        self.textCtrl4 = wx.TextCtrl(id=wxID_RABTEXTCTRL4, name='textCtrl4',
-              parent=self, pos=wx.Point(447, 182), size=wx.Size(70, 21),
-              style=0, value=u'')
+        self.harga = wx.TextCtrl(id=wxID_RABHARGA, name=u'harga', parent=self,
+              pos=wx.Point(447, 182), size=wx.Size(70, 21), style=0, value=u'')
 
-        self.textCtrl5 = wx.TextCtrl(id=wxID_RABTEXTCTRL5, name='textCtrl5',
+        self.jumlah = wx.TextCtrl(id=wxID_RABJUMLAH, name=u'jumlah',
               parent=self, pos=wx.Point(589, 183), size=wx.Size(70, 21),
               style=0, value=u'')
 
-        self.textCtrl6 = wx.TextCtrl(id=wxID_RABTEXTCTRL6, name='textCtrl6',
-              parent=self, pos=wx.Point(448, 66), size=wx.Size(70, 21), style=0,
-              value=u'')
+        self.nomor = wx.TextCtrl(id=wxID_RABNOMOR, name=u'nomor', parent=self,
+              pos=wx.Point(448, 66), size=wx.Size(70, 21), style=0, value=u'')
 
         self.tambah = wx.Button(id=wxID_RABTAMBAH, label=u'Tambah Data',
               name=u'tambah', parent=self, pos=wx.Point(420, 210),
@@ -187,17 +178,18 @@ class rab(wx.Frame):
               label=u'Uraian', name='staticText12', parent=self,
               pos=wx.Point(352, 128), size=wx.Size(32, 13), style=0)
 
-        self.textCtrl7 = wx.TextCtrl(id=wxID_RABTEXTCTRL7, name='textCtrl7',
+        self.kegiatan = wx.TextCtrl(id=wxID_RABKEGIATAN, name=u'kegiatan',
               parent=self, pos=wx.Point(448, 88), size=wx.Size(384, 35),
               style=wx.TE_MULTILINE, value=u'')
-
-        self.belanja = wx.ListCtrl(id=wxID_RABBELANJA, name=u'belanja',
-              parent=self, pos=wx.Point(6, 123), size=wx.Size(340, 112),
-              style=wx.LC_REPORT)
-        self._init_coll_belanja_Columns(self.belanja)
 
         self.waktu = wx.TextCtrl(id=wxID_RABWAKTU, name=u'waktu', parent=self,
               pos=wx.Point(449, 44), size=wx.Size(100, 21), style=0, value=u'')
 
     def __init__(self, parent):
         self._init_ctrls(parent)
+    
+    def mulai(self):
+        
+
+    def OnBidangCombobox(self, event):
+        event.Skip()
