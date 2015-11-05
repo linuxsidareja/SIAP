@@ -18,29 +18,28 @@ def create(parent):
     return input_profil_desa(parent)
 
 [wxID_INPUT_PROFIL_DESA, wxID_INPUT_PROFIL_DESAALAMAT, 
- wxID_INPUT_PROFIL_DESABUTTON1, wxID_INPUT_PROFIL_DESABUTTON2, 
- wxID_INPUT_PROFIL_DESABUTTON3, wxID_INPUT_PROFIL_DESABUTTON4, 
- wxID_INPUT_PROFIL_DESADESA, wxID_INPUT_PROFIL_DESAKABUPATEN, 
+ wxID_INPUT_PROFIL_DESABUTTON1, wxID_INPUT_PROFIL_DESADESA, 
+ wxID_INPUT_PROFIL_DESAEDIT, wxID_INPUT_PROFIL_DESAKABUPATEN, 
  wxID_INPUT_PROFIL_DESAKECAMATAN, wxID_INPUT_PROFIL_DESAKODE, 
  wxID_INPUT_PROFIL_DESALABEL_ALAMAT, wxID_INPUT_PROFIL_DESALABEL_KECAMATAN, 
  wxID_INPUT_PROFIL_DESALABEL_KODE_DESA, wxID_INPUT_PROFIL_DESALABEL_NAMA_DESA, 
  wxID_INPUT_PROFIL_DESALABEL_PROPINSI, wxID_INPUT_PROFIL_DESALABEL_WEB, 
  wxID_INPUT_PROFIL_DESALABLE_KABUPATEN, wxID_INPUT_PROFIL_DESALOGOPEMDA, 
- wxID_INPUT_PROFIL_DESANAMAEMAIL, wxID_INPUT_PROFIL_DESANOTELP, 
- wxID_INPUT_PROFIL_DESAPROPINSI, wxID_INPUT_PROFIL_DESASIMPANGAMBAR, 
- wxID_INPUT_PROFIL_DESASTATICTEXT2, wxID_INPUT_PROFIL_DESATELP, 
- wxID_INPUT_PROFIL_DESATOMBOL_KEMBALI, wxID_INPUT_PROFIL_DESATOMBOL_SIMPAN, 
+ wxID_INPUT_PROFIL_DESAMENU, wxID_INPUT_PROFIL_DESANAMAEMAIL, 
+ wxID_INPUT_PROFIL_DESANOTELP, wxID_INPUT_PROFIL_DESAPROPINSI, 
+ wxID_INPUT_PROFIL_DESASIMPANGAMBAR, wxID_INPUT_PROFIL_DESASTATICTEXT2, 
+ wxID_INPUT_PROFIL_DESATAMBAH, wxID_INPUT_PROFIL_DESATELP, 
  wxID_INPUT_PROFIL_DESAWEB, 
-] = [wx.NewId() for _init_ctrls in range(27)]
+] = [wx.NewId() for _init_ctrls in range(25)]
 
 class input_profil_desa(wx.Frame):
     def _init_ctrls(self, prnt):
         # generated method, don't edit
         wx.Frame.__init__(self, id=wxID_INPUT_PROFIL_DESA,
-              name=u'input_profil_desa', parent=prnt, pos=wx.Point(508, 238),
-              size=wx.Size(534, 328), style=wx.DEFAULT_FRAME_STYLE,
+              name=u'input_profil_desa', parent=prnt, pos=wx.Point(601, 268),
+              size=wx.Size(534, 294), style=wx.DEFAULT_FRAME_STYLE,
               title=u'Input Profil Desa')
-        self.SetClientSize(wx.Size(526, 298))
+        self.SetClientSize(wx.Size(526, 264))
         self.Center(wx.BOTH)
         self.SetBackgroundColour(wx.Colour(192, 192, 192))
 
@@ -92,17 +91,17 @@ class input_profil_desa(wx.Frame):
               name=u'kecamatan', parent=self, pos=wx.Point(280, 38),
               size=wx.Size(240, 21), style=0, value='')
 
-        self.tombol_simpan = wx.Button(id=wxID_INPUT_PROFIL_DESATOMBOL_SIMPAN,
-              label=u'Simpan Data', name=u'tombol_simpan', parent=self,
-              pos=wx.Point(8, 269), size=wx.Size(123, 23), style=0)
-        self.tombol_simpan.Bind(wx.EVT_BUTTON, self.OnTombol_simpanButton,
-              id=wxID_INPUT_PROFIL_DESATOMBOL_SIMPAN)
+        self.tambah = wx.Button(id=wxID_INPUT_PROFIL_DESATAMBAH,
+              label=u'Tambah', name=u'tambah', parent=self, pos=wx.Point(250,
+              236), size=wx.Size(87, 23), style=0)
+        self.tambah.Bind(wx.EVT_BUTTON, self.OnTombol_simpanButton,
+              id=wxID_INPUT_PROFIL_DESATAMBAH)
 
-        self.tombol_kembali = wx.Button(id=wxID_INPUT_PROFIL_DESATOMBOL_KEMBALI,
-              label=u'Kembali Ke Menu', name=u'tombol_kembali', parent=self,
-              pos=wx.Point(136, 269), size=wx.Size(142, 23), style=0)
-        self.tombol_kembali.Bind(wx.EVT_BUTTON, self.OnTombol_kembaliButton,
-              id=wxID_INPUT_PROFIL_DESATOMBOL_KEMBALI)
+        self.menu = wx.Button(id=wxID_INPUT_PROFIL_DESAMENU, label=u'Ke Menu',
+              name=u'menu', parent=self, pos=wx.Point(433, 236),
+              size=wx.Size(85, 23), style=0)
+        self.menu.Bind(wx.EVT_BUTTON, self.OnTombol_kembaliButton,
+              id=wxID_INPUT_PROFIL_DESAMENU)
 
         self.telp = wx.StaticText(id=wxID_INPUT_PROFIL_DESATELP, label=u'Telp',
               name=u'telp', parent=self, pos=wx.Point(192, 176),
@@ -142,17 +141,11 @@ class input_profil_desa(wx.Frame):
         self.button1.Bind(wx.EVT_BUTTON, self.OnButton1Button,
               id=wxID_INPUT_PROFIL_DESABUTTON1)
 
-        self.button2 = wx.Button(id=wxID_INPUT_PROFIL_DESABUTTON2,
-              label=u'Input Perangkat Desa', name='button2', parent=self,
-              pos=wx.Point(345, 215), size=wx.Size(176, 23), style=0)
-
-        self.button3 = wx.Button(id=wxID_INPUT_PROFIL_DESABUTTON3,
-              label=u'Input RT/RW/Dusun', name='button3', parent=self,
-              pos=wx.Point(344, 242), size=wx.Size(178, 23), style=0)
-
-        self.button4 = wx.Button(id=wxID_INPUT_PROFIL_DESABUTTON4,
-              label=u'Input Pejabat Pemerintahan', name='button4', parent=self,
-              pos=wx.Point(345, 269), size=wx.Size(176, 23), style=0)
+        self.edit = wx.Button(id=wxID_INPUT_PROFIL_DESAEDIT, label=u'Edit',
+              name=u'edit', parent=self, pos=wx.Point(342, 236),
+              size=wx.Size(88, 23), style=0)
+        self.edit.Bind(wx.EVT_BUTTON, self.OnTombol_simpanButton,
+              id=wxID_INPUT_PROFIL_DESAEDIT)
 
     def __init__(self, parent):
         self._init_ctrls(parent)
@@ -171,25 +164,10 @@ class input_profil_desa(wx.Frame):
             self.alamat.SetValue(str(hasil[19]))
             self.web.SetValue(str(hasil[20]))
             self.kode.SetValue(str(hasil[25]))
-            self.kades.SetValue(str(hasil[23]))
-            self.sekdes.SetValue(str(hasil[24]))
-            self.pemerintahan.SetValue(str(hasil[7]))
-            self.ekbang.SetValue(str(hasil[5]))
-            self.keuangan.SetValue(str(hasil[3]))
-            self.kesra.SetValue(str(hasil[2]))
-            self.umum.SetValue(str(hasil[4]))
-            self.camat.SetValue(str(hasil[6]))
-            self.bupati.SetValue(str(hasil[8]))
-            self.dusun1.SetValue(str(hasil[14]))
-            self.dusun2.SetValue(str(hasil[13]))
-            self.dusun3.SetValue(str(hasil[12]))
-            self.dusun4.SetValue(str(hasil[11]))
-            self.dusun5.SetValue(str(hasil[10]))
-            self.dusun6.SetValue(str(hasil[9]))
             self.notelp.SetValue(str(hasil[22]))
             self.namaemail.SetValue(str(hasil[21]))
             self.logopemda.SetValue(str(hasil[1]))
-            self.tombol_simpan.Disable()
+            self.tambah.Disable()
             self.button1.Disable()
              
             self.PhotoMaxSize = 150
@@ -204,11 +182,10 @@ class input_profil_desa(wx.Frame):
                 NewW = self.PhotoMaxSize * W / H
                 img = img.Scale(NewW,NewH)
                 self.imageCtrl = wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(img),wx.Point(16, 16))
-            self.pesan = wx.MessageDialog(self,"Data Identitas Sudah Dimasukkan Anda Hanya Diperkenankan Untuk Mengedit Data Identitas Desa. Silahkan Buka Edit Profil Desa ","Peringatan",wx.OK) 
-            self.pesan.ShowModal()    
+              
         else : 
             self.loadgambar()
-            self.tombol_simpan.Enable()
+            self.tambah.Enable()
             self.button1.Enable()
       
             
@@ -243,21 +220,6 @@ class input_profil_desa(wx.Frame):
         alamat = str(self.alamat.GetValue())
         web = str(self.web.GetValue())
         kode = str(self.kode.GetValue())
-        kades = str(self.kades.GetValue())
-        sekdes = str(self.sekdes.GetValue())
-        pemerintahan = str(self.pemerintahan.GetValue())
-        ekbang = str(self.ekbang.GetValue())
-        keuangan = str(self.keuangan.GetValue())
-        kesra = str(self.kesra.GetValue())
-        umum = str(self.umum.GetValue())
-        camat = str(self.camat.GetValue())
-        bupati = str(self.bupati.GetValue())
-        dusun1 = str(self.dusun1.GetValue())
-        dusun2 = str(self.dusun2.GetValue())
-        dusun3 = str(self.dusun3.GetValue())
-        dusun4 = str(self.dusun4.GetValue())
-        dusun5 = str(self.dusun5.GetValue())
-        dusun6 = str(self.dusun6.GetValue())
         notelp = str(self.notelp.GetValue())
         namaemail = str(self.namaemail.GetValue())
         gbr = str(self.simpangambar.GetValue())
@@ -277,9 +239,6 @@ class input_profil_desa(wx.Frame):
             self.pesan.ShowModal()
         elif kode == '':
             self.pesan = wx.MessageDialog(self,"Kode Desa Jangan Kosong","Peringatan",wx.OK) 
-            self.pesan.ShowModal()
-        elif kades == '':
-            self.pesan = wx.MessageDialog(self,"Nama Kepala Desa Jangan Kosong","Peringatan",wx.OK) 
             self.pesan.ShowModal()
         elif filepath == '':
             add_identitas="INSERT INTO identitas (logopemda,nama_kaur_kesra,nama_kaur_keuangan,nama_kaur_umum,nama_kaur_ekbang, nama_camat, nama_kaur_pemerintahan, nama_bupati,dusun6, dusun5, dusun4, dusun3, dusun2, dusun1, nama_desa, nama_kecamatan, nama_kabupaten, nama_propinsi, alamat_kantor, website, email, no_telp, nama_kades, nama_sekdes, nokode) VALUES('"+(gbr)+"pemda.jpg','"+(kesra)+"','"+(keuangan)+"','"+(umum)+"','"+(ekbang)+"','"+(camat)+"','"+(pemerintahan)+"','"+(bupati)+"','"+(dusun6)+"', '"+(dusun5)+"', '"+(dusun4)+"', '"+(dusun3)+"', '"+(dusun2)+"', '"+(dusun1)+"', '"+(desa)+"', '"+(kecamatan)+"', '"+(kabupaten)+"', '"+(propinsi)+"', '"+(alamat)+"', '"+(web)+"', '"+(namaemail)+"', '"+(notelp)+"', '"+(kades)+"', '"+(sekdes)+"', '"+(kode)+"')"

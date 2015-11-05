@@ -23,6 +23,8 @@ modules ={u'apbdesa': [0, '', u'form/apbdesa.py'],
  u'input_data_kemiskinan': [0, '', u'form/input_data_kemiskinan.py'],
  u'input_indikator_kemiskinan': [0, '', u'form/input_indikator_kemiskinan.py'],
  u'input_profil': [0, '', u'form/input_profil.py'],
+ u'inputdatart': [0, '', u'form/inputdatart.py'],
+ u'jabatan': [0, '', u'form/jabatan.py'],
  u'kaspajak': [0, '', u'form/kaspajak.py'],
  u'kaspembantu': [0, '', u'form/kaspembantu.py'],
  u'kasumum': [0, '', u'form/kasumum.py'],
@@ -73,7 +75,8 @@ modules ={u'apbdesa': [0, '', u'form/apbdesa.py'],
  u'tahunrpjmdes': [0, '', u'form/tahunrpjmdes.py'],
  u'takterduga': [0, '', u'form/takterduga.py'],
  u'tambah_anggota_keluarga': [0, '', u'form/tambah_anggota_keluarga.py'],
- u'tanggungbelanja': [0, '', u'form/tanggungbelanja.py']}
+ u'tanggungbelanja': [0, '', u'form/tanggungbelanja.py'],
+ u'tentang': [0, '', u'form/tentang.py']}
 
 class LoginDialog(wx.Dialog):
     """

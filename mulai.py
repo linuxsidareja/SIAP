@@ -66,6 +66,7 @@ import edit_kk
 import pecah_keluarga
 import kk_sementara
 import tambah_anggota_keluarga
+import tentang
 import os
 
 import sqlite3
@@ -196,9 +197,9 @@ def create(parent):
 ] = [wx.NewId() for _init_coll_kelahiran_Items in range(2)]
 
 [wxID_FRAME1ISIPROFILDATAOL, wxID_FRAME1ISIPROFILEDITPROFILDESA, 
- wxID_FRAME1ISIPROFILIMPORTDATACSV, wxID_FRAME1ISIPROFILINPUTPROFILDESA, 
- wxID_FRAME1ISIPROFILPASSWORD, 
-] = [wx.NewId() for _init_coll_isiprofil_Items in range(5)]
+ wxID_FRAME1ISIPROFILINPUTPROFILDESA, wxID_FRAME1ISIPROFILITEMS5, 
+ wxID_FRAME1ISIPROFILITEMS6, wxID_FRAME1ISIPROFILPASSWORD, 
+] = [wx.NewId() for _init_coll_isiprofil_Items in range(6)]
 
 [wxID_FRAME1KODEREKENINGBIDANGPEMBANGUNAN, 
  wxID_FRAME1KODEREKENINGBIDANGPEMBERDAYAAN, 
@@ -238,6 +239,8 @@ def create(parent):
  wxID_FRAME1KEUANGANITEMS4, wxID_FRAME1KEUANGANITEMS5, 
 ] = [wx.NewId() for _init_coll_keuangan_Items in range(6)]
 
+[wxID_FRAME1BANTUANITEMS0] = [wx.NewId() for _init_coll_bantuan_Items in range(1)]
+
 [wxID_FRAME1MENUPOTENSIDANSTATISTIKITEMS0] = [wx.NewId() for _init_coll_menupotensidanstatistik_Items in range(1)]
 
 [wxID_FRAME1KEMISKINANDATAKEMISKINAN] = [wx.NewId() for _init_coll_kemiskinan_Items in range(1)]
@@ -253,6 +256,7 @@ class Frame1(wx.Frame):
         parent.Append(menu=self.menupotensidanstatistik, title=u'Potensi Desa')
         parent.Append(menu=self.menuadministrasidankeuangan,
               title=u'Administrasi Dan Keuangan')
+        parent.Append(menu=self.bantuan, title=u'Bantuan')
 
     def _init_coll_kelahiran_Items(self, parent):
         # generated method, don't edit
@@ -265,6 +269,14 @@ class Frame1(wx.Frame):
               id=wxID_FRAME1KELAHIRANTAMBAH)
         self.Bind(wx.EVT_MENU, self.OnKelahiranRubahMenu,
               id=wxID_FRAME1KELAHIRANRUBAH)
+
+    def _init_coll_bantuan_Items(self, parent):
+        # generated method, don't edit
+
+        parent.Append(help='', id=wxID_FRAME1BANTUANITEMS0, kind=wx.ITEM_NORMAL,
+              text=u'Tentang SIAP')
+        self.Bind(wx.EVT_MENU, self.OnBantuanItems0Menu,
+              id=wxID_FRAME1BANTUANITEMS0)
 
     def _init_coll_pembukuan_Items(self, parent):
         # generated method, don't edit
@@ -569,7 +581,7 @@ class Frame1(wx.Frame):
         # generated method, don't edit
 
         parent.AppendMenu(help='', id=wxID_FRAME1MENUPROFILDANPENDUDUKITEMS4,
-              submenu=self.isiprofil, text=u'Profile Desa')
+              submenu=self.isiprofil, text=u'Profil Desa')
         parent.AppendSeparator()
         parent.AppendMenu(help='', id=wxID_FRAME1MENUPROFILDANPENDUDUKITEMS6,
               submenu=self.isikk, text=u'Kepala Keluarga')
@@ -595,11 +607,14 @@ class Frame1(wx.Frame):
         parent.Append(help='', id=wxID_FRAME1ISIPROFILPASSWORD,
               kind=wx.ITEM_NORMAL, text=u'Password')
         parent.Append(help='', id=wxID_FRAME1ISIPROFILINPUTPROFILDESA,
-              kind=wx.ITEM_NORMAL, text=u'Input Profil Desa')
+              kind=wx.ITEM_NORMAL, text=u'Profil Desa')
         parent.Append(help='', id=wxID_FRAME1ISIPROFILEDITPROFILDESA,
-              kind=wx.ITEM_NORMAL, text=u'Edit Profil Desa')
-        parent.Append(help='', id=wxID_FRAME1ISIPROFILIMPORTDATACSV,
-              kind=wx.ITEM_NORMAL, text=u'Import Data')
+              kind=wx.ITEM_NORMAL, text=u'Input Jabatan')
+        parent.Append(help='', id=wxID_FRAME1ISIPROFILITEMS5,
+              kind=wx.ITEM_NORMAL, text=u'Input Pejabat/Staf Desa')
+        parent.Append(help='', id=wxID_FRAME1ISIPROFILITEMS6,
+              kind=wx.ITEM_NORMAL, text=u'Input Ketua RT/RW/Dusun')
+        parent.AppendSeparator()
         parent.Append(help='', id=wxID_FRAME1ISIPROFILDATAOL,
               kind=wx.ITEM_NORMAL, text=u'Data Untuk Online')
         self.Bind(wx.EVT_MENU, self.OnIsiprofilPasswordMenu,
@@ -608,8 +623,6 @@ class Frame1(wx.Frame):
               id=wxID_FRAME1ISIPROFILINPUTPROFILDESA)
         self.Bind(wx.EVT_MENU, self.OnIsiprofilEditprofildesaMenu,
               id=wxID_FRAME1ISIPROFILEDITPROFILDESA)
-        self.Bind(wx.EVT_MENU, self.OnIsiprofilImportdatacsvMenu,
-              id=wxID_FRAME1ISIPROFILIMPORTDATACSV)
         self.Bind(wx.EVT_MENU, self.OnIsiprofilDataolMenu,
               id=wxID_FRAME1ISIPROFILDATAOL)
 
@@ -655,6 +668,8 @@ class Frame1(wx.Frame):
 
         self.keuangan = wx.Menu(title='')
 
+        self.bantuan = wx.Menu(title=u'')
+
         self._init_coll_MenuAtas_Menus(self.MenuAtas)
         self._init_coll_menuprofildanpenduduk_Items(self.menuprofildanpenduduk)
         self._init_coll_kemiskinan_Items(self.kemiskinan)
@@ -675,25 +690,27 @@ class Frame1(wx.Frame):
         self._init_coll_pembukuan_Items(self.pembukuan)
         self._init_coll_apbdesa_Items(self.apbdesa)
         self._init_coll_keuangan_Items(self.keuangan)
+        self._init_coll_bantuan_Items(self.bantuan)
 
     def _init_ctrls(self, prnt):
         # generated method, don't edit
         wx.Frame.__init__(self, id=wxID_FRAME1, name='', parent=prnt,
-              pos=wx.Point(466, 89), size=wx.Size(804, 655),
-              style=wx.TAB_TRAVERSAL | wx.CAPTION | wx.DEFAULT_FRAME_STYLE,
+              pos=wx.Point(463, 86), size=wx.Size(810, 658),
+              style=wx.DEFAULT_FRAME_STYLE | wx.TAB_TRAVERSAL,
               title=u'MENU UTAMA SID SIDEKEM VERSI 1.0')
         self._init_utils()
-        self.SetClientSize(wx.Size(796, 625))
+        self.SetClientSize(wx.Size(802, 628))
         self.SetMenuBar(self.MenuAtas)
         self.SetWindowVariant(wx.WINDOW_VARIANT_NORMAL)
         self.SetAutoLayout(False)
-        self.SetBackgroundColour(wx.Colour(255, 255, 255))
+        self.SetBackgroundColour(wx.Colour(192, 192, 192))
         self.Center(wx.BOTH)
+        self.SetForegroundColour(wx.Colour(255, 255, 255))
 
         self.staticBitmap1 = wx.StaticBitmap(bitmap=wx.Bitmap(u'png/depan.jpg',
               wx.BITMAP_TYPE_JPEG), id=wxID_FRAME1STATICBITMAP1,
               name='staticBitmap1', parent=self, pos=wx.Point(0, 0),
-              size=wx.Size(796, 625), style=0)
+              size=wx.Size(802, 628), style=0)
 
     def __init__(self, parent):
         self._init_ctrls(parent)
@@ -963,5 +980,12 @@ class Frame1(wx.Frame):
     def OnKeuanganItems5Menu(self, event):
         self.main=bankdesa.create(None)
         self.main.Show()
+
+    def OnBantuanItems0Menu(self, event):
+        self.main=tentang.create(None)
+        self.main.Show()
+
+    def OnBantuanItems1Menu(self, event):
+        webbrowser.open('http://sisteminformasidesa.web.id')
 
     

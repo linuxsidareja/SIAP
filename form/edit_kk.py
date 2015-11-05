@@ -18,6 +18,10 @@ import shutil
 db = sqlite3.connect('siap.db')
 cur = db.cursor()
 
+sql = "SELECT * FROM dusun"
+cur.execute(sql) 
+pilihan = [item[1] for item in cur.fetchall()] 
+
 def create(parent):
     return edit_kk(parent)
 
@@ -76,7 +80,7 @@ class edit_kk(wx.Dialog):
     def _init_ctrls(self, prnt):
         # generated method, don't edit
         wx.Dialog.__init__(self, id=wxID_EDIT_KK, name=u'edit_kk', parent=prnt,
-              pos=wx.Point(419, 99), size=wx.Size(896, 669),
+              pos=wx.Point(420, 75), size=wx.Size(896, 669),
               style=wx.DEFAULT_FRAME_STYLE, title=u'Edit Kepala Keluarga')
         self.SetClientSize(wx.Size(888, 639))
         self.Center(wx.BOTH)
@@ -93,10 +97,6 @@ class edit_kk(wx.Dialog):
         self.input_alamat = wx.TextCtrl(id=wxID_EDIT_KKINPUT_ALAMAT,
               name=u'input_alamat', parent=self, pos=wx.Point(256, 168),
               size=wx.Size(288, 21), style=wx.TE_READONLY, value=u'')
-
-        self.input_dusun = wx.TextCtrl(id=wxID_EDIT_KKINPUT_DUSUN,
-              name=u'input_dusun', parent=self, pos=wx.Point(552, 168),
-              size=wx.Size(192, 21), style=wx.TE_READONLY, value=u'')
 
         self.label_alamat = wx.StaticText(id=wxID_EDIT_KKLABEL_ALAMAT,
               label=u'Alamat', name=u'label_alamat', parent=self,
@@ -258,7 +258,7 @@ class edit_kk(wx.Dialog):
         self.pilihan_status = wx.ComboBox(choices=['Belum Kawin', 'Kawin',
               'Cerai Mati', 'Cerai Hidup'], id=wxID_EDIT_KKPILIHAN_STATUS,
               name=u'pilihan_status', parent=self, pos=wx.Point(624, 208),
-              size=wx.Size(248, 21), style=0)
+              size=wx.Size(248, 21), style=wx.CB_READONLY)
 
         self.label_status_kependudukan = wx.StaticText(id=wxID_EDIT_KKLABEL_STATUS_KEPENDUDUKAN,
               label=u'Status Kependudukan', name=u'label_status_kependudukan',
@@ -483,17 +483,25 @@ class edit_kk(wx.Dialog):
         self.button2.Bind(wx.EVT_BUTTON, self.OnTombol_tambah_dataButton,
               id=wxID_EDIT_KKBUTTON2)
 
+        self.input_dusun = wx.ComboBox(choices=pilihan,
+              id=wxID_EDIT_KKINPUT_DUSUN, name=u'input_dusun', parent=self,
+              pos=wx.Point(552, 168), size=wx.Size(192, 21), style=0, value='')
+
     def __init__(self, parent):
+        
         self._init_ctrls(parent)
-        self.dataprofil()
+     
         self.awal()  
     
+    
+        
+        
     def awal(self):
         self.IsiList()
         self.loadgambar()
         self.input_no_kk.SetValue('')
         self.input_alamat.SetValue('')
-        self.input_dusun.SetValue('')
+        #self.input_dusun.SetValue('')
         self.input_rt.SetValue('')
         self.input_rw.SetValue('')
         self.input_nik.SetValue('')
@@ -616,19 +624,7 @@ class edit_kk(wx.Dialog):
         img = wx.EmptyImage(100,100)
         self.imageCtrl = wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(img),wx.Point(52, 251))
   
-    def dataprofil(self) : 
-        sql="SELECT * FROM identitas WHERE no=1"
-        cur.execute(sql)
-        hasil = cur.fetchone()  
-        if hasil : 
-            self.propinsi.SetValue(str(hasil[18]))
-            self.kabupaten.SetValue(str(hasil[17])) 
-            self.kecamatan.SetValue(str(hasil[16]))
-            self.desa.SetValue(str(hasil[15]))
-            
-        else : 
-            self.pesan = wx.MessageDialog(self,"Cek Data Profil","Konfirmasi",wx.OK) 
-            self.pesan.ShowModal() 
+    
                 
 
     def OnTombol_tambah_dataButton(self, event):
@@ -769,3 +765,8 @@ class edit_kk(wx.Dialog):
         self.pesan = wx.MessageDialog(self,"Data Sudah Dihapus","Konfirmasi",wx.OK) 
         self.pesan.ShowModal()
         self.awal()
+
+    
+        
+
+   
