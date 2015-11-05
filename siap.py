@@ -39,6 +39,7 @@ modules ={u'apbdesa': [0, '', u'form/apbdesa.py'],
  u'laporanrpjmdes': [0, '', u'form/laporanrpjmdes.py'],
  u'lihatpendapatan': [0, '', u'form/lihatpendapatan.py'],
  u'mulai': [1, 'Main frame of Application', u'mulai.py'],
+ u'namapejabat': [0, '', u'form/namapejabat.py'],
  u'pecah_keluarga': [0, '', u'form/pecah_keluarga.py'],
  u'pemasukanapbdesa': [0, '', u'form/pemasukanapbdesa.py'],
  u'pembangunandesa': [0, '', u'form/pembangunandesa.py'],
@@ -86,16 +87,10 @@ class LoginDialog(wx.Dialog):
     #----------------------------------------------------------------------
     def __init__(self):
         """Constructor"""
-        wx.Dialog.__init__(self, None,size=wx.Size(200, 150), title="Login SIDEKEM")
+        wx.Dialog.__init__(self, None,size=wx.Size(200, 150), title="Login SIAP")
  
         # user info
-        user_sizer = wx.BoxSizer(wx.HORIZONTAL)
- 
-        user_lbl = wx.StaticText(self, label="Username:")
-        user_sizer.Add(user_lbl, 0, wx.ALL|wx.CENTER, 5)
-        self.user = wx.TextCtrl(self)
-        user_sizer.Add(self.user, 0, wx.ALL, 5)
- 
+        
         # pass info
         p_sizer = wx.BoxSizer(wx.HORIZONTAL)
  
@@ -105,7 +100,7 @@ class LoginDialog(wx.Dialog):
         p_sizer.Add(self.password, 0, wx.ALL, 5)
  
         main_sizer = wx.BoxSizer(wx.VERTICAL)
-        main_sizer.Add(user_sizer, 0, wx.ALL, 5)
+       
         main_sizer.Add(p_sizer, 0, wx.ALL, 5)
  
         btn = wx.Button(self, label="Login")
