@@ -1,4 +1,4 @@
-#Boa:Frame:input_profil_desa
+#Boa:Dialog:input_profil_desa
 #-------------------------------------------------------------------------------
 #Sistem Informasi dan Administrasi Perdesaan
 #pengembang johandri@ictwatch.id
@@ -32,11 +32,11 @@ def create(parent):
  wxID_INPUT_PROFIL_DESAWEB, 
 ] = [wx.NewId() for _init_ctrls in range(25)]
 
-class input_profil_desa(wx.Frame):
+class input_profil_desa(wx.Dialog):
     def _init_ctrls(self, prnt):
         # generated method, don't edit
-        wx.Frame.__init__(self, id=wxID_INPUT_PROFIL_DESA,
-              name=u'input_profil_desa', parent=prnt, pos=wx.Point(601, 268),
+        wx.Dialog.__init__(self, id=wxID_INPUT_PROFIL_DESA,
+              name=u'input_profil_desa', parent=prnt, pos=wx.Point(601, 285),
               size=wx.Size(534, 294), style=wx.DEFAULT_FRAME_STYLE,
               title=u'Input Profil Desa')
         self.SetClientSize(wx.Size(526, 264))
@@ -94,13 +94,13 @@ class input_profil_desa(wx.Frame):
         self.tambah = wx.Button(id=wxID_INPUT_PROFIL_DESATAMBAH,
               label=u'Tambah', name=u'tambah', parent=self, pos=wx.Point(250,
               236), size=wx.Size(87, 23), style=0)
-        self.tambah.Bind(wx.EVT_BUTTON, self.OnTombol_simpanButton,
+        self.tambah.Bind(wx.EVT_BUTTON, self.OnTambahButton,
               id=wxID_INPUT_PROFIL_DESATAMBAH)
 
         self.menu = wx.Button(id=wxID_INPUT_PROFIL_DESAMENU, label=u'Ke Menu',
               name=u'menu', parent=self, pos=wx.Point(433, 236),
               size=wx.Size(85, 23), style=0)
-        self.menu.Bind(wx.EVT_BUTTON, self.OnTombol_kembaliButton,
+        self.menu.Bind(wx.EVT_BUTTON, self.OnMenuButton,
               id=wxID_INPUT_PROFIL_DESAMENU)
 
         self.telp = wx.StaticText(id=wxID_INPUT_PROFIL_DESATELP, label=u'Telp',
@@ -144,7 +144,7 @@ class input_profil_desa(wx.Frame):
         self.edit = wx.Button(id=wxID_INPUT_PROFIL_DESAEDIT, label=u'Edit',
               name=u'edit', parent=self, pos=wx.Point(342, 236),
               size=wx.Size(88, 23), style=0)
-        self.edit.Bind(wx.EVT_BUTTON, self.OnTombol_simpanButton,
+        self.edit.Bind(wx.EVT_BUTTON, self.OnEditButton,
               id=wxID_INPUT_PROFIL_DESAEDIT)
 
     def __init__(self, parent):
@@ -157,18 +157,20 @@ class input_profil_desa(wx.Frame):
         hasil = cur.fetchone()  
         if hasil :
             
-            self.desa.SetValue(str(hasil[15]))
-            self.kecamatan.SetValue(str(hasil[16]))
-            self.kabupaten.SetValue(str(hasil[17]))
-            self.propinsi.SetValue(str(hasil[18]))
-            self.alamat.SetValue(str(hasil[19]))
-            self.web.SetValue(str(hasil[20]))
-            self.kode.SetValue(str(hasil[25]))
-            self.notelp.SetValue(str(hasil[22]))
-            self.namaemail.SetValue(str(hasil[21]))
+            self.desa.SetValue(str(hasil[2]))
+            self.kecamatan.SetValue(str(hasil[3]))
+            self.kabupaten.SetValue(str(hasil[4]))
+            self.propinsi.SetValue(str(hasil[5]))
+            self.alamat.SetValue(str(hasil[6]))
+            self.web.SetValue(str(hasil[7]))
+            self.kode.SetValue(str(hasil[10]))
+            self.notelp.SetValue(str(hasil[9]))
+            self.namaemail.SetValue(str(hasil[8]))
             self.logopemda.SetValue(str(hasil[1]))
             self.tambah.Disable()
-            self.button1.Disable()
+            self.edit.Enable()
+            
+            self.button1.Enable()
              
             self.PhotoMaxSize = 150
             img = wx.Image(self.logopemda.GetValue(), wx.BITMAP_TYPE_ANY)
@@ -187,7 +189,8 @@ class input_profil_desa(wx.Frame):
             self.loadgambar()
             self.tambah.Enable()
             self.button1.Enable()
-      
+            self.edit.Disable()
+           
             
     def loadgambar(self):
         self.PhotoMaxSize = 150
@@ -205,14 +208,33 @@ class input_profil_desa(wx.Frame):
         self.imageCtrl = wx.StaticBitmap(self, wx.ID_ANY, wx.BitmapFromImage(img),wx.Point(16, 16))
  
   
-    def OnTombol_kembaliButton(self, event):
+    def OnButton1Button(self, event):
+        wildcard = "JPG PNG BMP File (*.jpg)|*.jpg"
+        dialog = wx.FileDialog(None, "Ambil File",
+                               wildcard=wildcard,
+                               style=wx.OPEN)
+        if dialog.ShowModal() == wx.ID_OK:
+            self.logopemda.SetValue(dialog.GetPath())
+        dialog.Destroy()
+        self.onView()
         
-        
-        self.Close()
-        self.Destroy()
-        
+    def onView(self):
+        filepath = self.logopemda.GetValue()
+        img = wx.Image(filepath, wx.BITMAP_TYPE_ANY)
+        # scale the image, preserving the aspect ratio
+        W = img.GetWidth()
+        H = img.GetHeight()
+        if W > H:
+            NewW = self.PhotoMaxSize
+            NewH = self.PhotoMaxSize * H / W
+        else:
+            NewH = self.PhotoMaxSize
+            NewW = self.PhotoMaxSize * W / H
+            
+        img = img.Scale(NewW,NewH)
+        self.imageCtrl.SetBitmap(wx.BitmapFromImage(img))
 
-    def OnTombol_simpanButton(self, event):
+    def OnTambahButton(self, event):
         desa = str(self.desa.GetValue())
         kecamatan = str(self.kecamatan.GetValue())
         kabupaten = str(self.kabupaten.GetValue())
@@ -253,30 +275,60 @@ class input_profil_desa(wx.Frame):
             self.pesan.ShowModal() 
             self.Close()
             self.Destroy()
-            
 
-    def OnButton1Button(self, event):
-        wildcard = "JPG PNG BMP File (*.jpg)|*.jpg"
-        dialog = wx.FileDialog(None, "Ambil File",
-                               wildcard=wildcard,
-                               style=wx.OPEN)
-        if dialog.ShowModal() == wx.ID_OK:
-            self.logopemda.SetValue(dialog.GetPath())
-        dialog.Destroy()
-        self.onView()
+    def OnMenuButton(self, event):
+        self.Close()
+        self.Destroy()
+
+    def OnEditButton(self, event):
+        desa = str(self.desa.GetValue())
+        kecamatan = str(self.kecamatan.GetValue())
+        kabupaten = str(self.kabupaten.GetValue())
+        propinsi = str(self.propinsi.GetValue())
+        alamat = str(self.alamat.GetValue())
+        web = str(self.web.GetValue())
+        kode = str(self.kode.GetValue())
+        notelp = str(self.notelp.GetValue())
+        namaemail = str(self.namaemail.GetValue())
+        gbr = str(self.simpangambar.GetValue())
+        filepath = str(self.logopemda.GetValue())
         
-    def onView(self):
-        filepath = self.logopemda.GetValue()
-        img = wx.Image(filepath, wx.BITMAP_TYPE_ANY)
-        # scale the image, preserving the aspect ratio
-        W = img.GetWidth()
-        H = img.GetHeight()
-        if W > H:
-            NewW = self.PhotoMaxSize
-            NewH = self.PhotoMaxSize * H / W
-        else:
-            NewH = self.PhotoMaxSize
-            NewW = self.PhotoMaxSize * W / H
+        
+        if desa == '':
+            self.pesan = wx.MessageDialog(self,"Nama Desa Jangan Kosong","Peringatan",wx.OK) 
+            self.pesan.ShowModal()
+        elif kecamatan == '':
+            self.pesan = wx.MessageDialog(self,"Nama Kecamatan Jangan Kosong","Peringatan",wx.OK) 
+            self.pesan.ShowModal()
+        elif kabupaten == '':
+            self.pesan = wx.MessageDialog(self,"Nama Kabupaten Jangan Kosong","Peringatan",wx.OK) 
+            self.pesan.ShowModal()        
+        elif propinsi == '':
+            self.pesan = wx.MessageDialog(self,"Nama Propinsi Jangan Kosong","Peringatan",wx.OK) 
+            self.pesan.ShowModal()
+        elif kode == '':
+            self.pesan = wx.MessageDialog(self,"Kode Desa Jangan Kosong","Peringatan",wx.OK) 
+            self.pesan.ShowModal()
+        
+        elif filepath == '':
+            add_update = "UPDATE identitas SET logopemda = '"+gbr+"pemda.jpg', nama_desa = '"+desa+"', nama_kecamatan='"+kecamatan+"', nama_kabupaten='"+kabupaten+"', nama_propinsi='"+propinsi+"', alamat_kantor='"+alamat+"', website='"+web+"', email='"+namaemail+"', no_telp='"+notelp+"',  nokode='"+kode+"'  WHERE no=1 " 
+            cur.execute(add_update)
+            db.commit()
+            self.pesan = wx.MessageDialog(self,"Data Identitas Desa Terupdate ","Konfirmasi",wx.OK) 
+            self.pesan.ShowModal() 
             
-        img = img.Scale(NewW,NewH)
-        self.imageCtrl.SetBitmap(wx.BitmapFromImage(img))
+        elif filepath == gbr+desa+'.jpg':
+            add_update = "UPDATE identitas SET logopemda = '"+filepath+"', nama_desa = '"+desa+"', nama_kecamatan='"+kecamatan+"', nama_kabupaten='"+kabupaten+"', nama_propinsi='"+propinsi+"', alamat_kantor='"+alamat+"', website='"+web+"', email='"+namaemail+"', no_telp='"+notelp+"', nokode='"+kode+"'  WHERE no=1 " 
+            cur.execute(add_update)
+            db.commit()
+            self.pesan = wx.MessageDialog(self,"Data Identitas Desa Terupdate ","Konfirmasi",wx.OK) 
+            self.pesan.ShowModal() 
+            
+        else :
+            shutil.copy2(filepath, gbr+desa+'.jpg')       
+            add_update = "UPDATE identitas SET logopemda = '"+gbr+desa+".jpg', nama_desa = '"+desa+"', nama_kecamatan='"+kecamatan+"', nama_kabupaten='"+kabupaten+"', nama_propinsi='"+propinsi+"', alamat_kantor='"+alamat+"', website='"+web+"', email='"+namaemail+"', no_telp='"+notelp+"',  nokode='"+kode+"'  WHERE no=1 " 
+            cur.execute(add_update)
+            db.commit()
+            self.pesan = wx.MessageDialog(self,"Data Identitas Desa Terupdate ","Konfirmasi",wx.OK) 
+            self.pesan.ShowModal() 
+            

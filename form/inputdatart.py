@@ -61,9 +61,10 @@ class iputrt(wx.Dialog):
     def _init_ctrls(self, prnt):
         # generated method, don't edit
         wx.Dialog.__init__(self, id=wxID_IPUTRT, name=u'iputrt', parent=prnt,
-              pos=wx.Point(395, 173), size=wx.Size(719, 522),
+              pos=wx.Point(509, 171), size=wx.Size(719, 522),
               style=wx.DEFAULT_DIALOG_STYLE, title=u'Input Data RT, RW, Dusun')
         self.SetClientSize(wx.Size(711, 492))
+        self.Center(wx.BOTH)
 
         self.staticBox2 = wx.StaticBox(id=wxID_IPUTRTSTATICBOX2,
               label=u'Input Data RT', name='staticBox2', parent=self,
@@ -206,10 +207,10 @@ class iputrt(wx.Dialog):
 
         self.staticText10 = wx.StaticText(id=wxID_IPUTRTSTATICTEXT10,
               label=u'record', name='staticText10', parent=self,
-              pos=wx.Point(605, 27), size=wx.Size(32, 13), style=0)
+              pos=wx.Point(605, 28), size=wx.Size(32, 13), style=0)
 
         self.nomor1 = wx.TextCtrl(id=wxID_IPUTRTNOMOR1, name=u'nomor1',
-              parent=self, pos=wx.Point(642, 24), size=wx.Size(51, 20), style=0,
+              parent=self, pos=wx.Point(642, 25), size=wx.Size(51, 20), style=0,
               value=u'')
 
         self.staticText11 = wx.StaticText(id=wxID_IPUTRTSTATICTEXT11,
@@ -222,10 +223,10 @@ class iputrt(wx.Dialog):
 
         self.staticText12 = wx.StaticText(id=wxID_IPUTRTSTATICTEXT12,
               label=u'record', name='staticText12', parent=self,
-              pos=wx.Point(605, 330), size=wx.Size(32, 13), style=0)
+              pos=wx.Point(605, 333), size=wx.Size(32, 13), style=0)
 
         self.textCtrl11 = wx.TextCtrl(id=wxID_IPUTRTTEXTCTRL11,
-              name='textCtrl11', parent=self, pos=wx.Point(642, 327),
+              name='textCtrl11', parent=self, pos=wx.Point(642, 330),
               size=wx.Size(51, 20), style=0, value=u'')
 
     def __init__(self, parent):
